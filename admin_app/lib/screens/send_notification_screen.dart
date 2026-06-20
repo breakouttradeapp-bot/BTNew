@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SendNotificationScreen extends StatefulWidget {
   const SendNotificationScreen({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
   final _serverKeyController = TextEditingController();
-  String target = 'all_users';
+  String target = 'all';
   String? selectedChartId;
 
   Future<void> _send() async {
@@ -27,6 +28,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
       'title': title,
       'body': body,
       'chartId': selectedChartId,
+      'target': target,
       'sentAt': FieldValue.serverTimestamp(),
     });
 
@@ -49,14 +51,18 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
       }
     };
 
-    final res = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: {'Content-Type': 'application/json', 'Authorization': 'key=$serverKey'},
-        body: jsonEncode(payload));
+    try {
+      final res = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'key=$serverKey'},
+          body: jsonEncode(payload));
 
-    if (res.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Notification sent')));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('FCM send failed: ${res.statusCode}')));
+      if (res.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Notification sent')));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('FCM send failed: ${res.statusCode}')));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('FCM send error: $e')));
     }
   }
 
@@ -70,6 +76,16 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is Map && args['chartId'] != null) {
+      selectedChartId = args['chartId'] as String?;
+      if (args['prefill'] is Map) {
+        final pre = args['prefill'] as Map;
+        _titleController.text = pre['stockName'] ?? '';
+        _bodyController.text = pre['chartDate'] ?? '';
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text('Send Notification')),
       body: Padding(
@@ -80,7 +96,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
           TextField(controller: _bodyController, decoration: const InputDecoration(labelText: 'Message'), maxLines: 3),
           const SizedBox(height: 8),
           DropdownButtonFormField<String>(
-            value: 'all',
+            value: target,
             items: const [
               DropdownMenuItem(value: 'all', child: Text('All Users')),
               DropdownMenuItem(value: 'premium', child: Text('Premium Only')),
