@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/login_screen.dart';
 import 'screens/upload_chart_screen.dart';
 import 'screens/send_notification_screen.dart';
+import 'screens/chart_list_screen.dart';
+import 'screens/chart_edit_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -25,6 +27,8 @@ class AdminApp extends StatelessWidget {
         '/': (context) => const DashboardScreen(),
         '/login': (context) => const LoginScreen(),
         '/upload': (context) => const UploadChartScreen(),
+        '/charts': (context) => const ChartListScreen(),
+        '/chart_edit': (context) => const ChartEditScreen(),
         '/send': (context) => const SendNotificationScreen(),
       },
     );
@@ -40,9 +44,11 @@ class DashboardScreen extends StatelessWidget {
       body: Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/upload'),
-            child: const Text('Upload Chart'),
+            onPressed: () => Navigator.pushNamed(context, '/charts'),
+            child: const Text('Manage Charts'),
           ),
+          const SizedBox(height: 12),
+          ElevatedButton(onPressed: () => Navigator.pushNamed(context, '/upload'), child: const Text('Upload Chart')),
           const SizedBox(height: 12),
           ElevatedButton(onPressed: () => Navigator.pushNamed(context, '/send'), child: const Text('Send Notification')),
         ]),
