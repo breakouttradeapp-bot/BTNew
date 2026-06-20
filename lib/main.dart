@@ -11,12 +11,13 @@ import 'features/home/home_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/premium/payment_pending_screen.dart';
 import 'features/premium/premium_screen.dart';
+import 'firebase_options.dart';
 
 // NOTE: generate firebase_options.dart via FlutterFire CLI and replace below.
 // import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // optionally handle background messages
   await NotificationService().showLocalNotification(
     title: message.notification?.title ?? 'BreakoutTrade',
@@ -26,7 +27,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await AdMobService.initialize();
   await NotificationService().init();
