@@ -13,9 +13,6 @@ import 'features/premium/payment_pending_screen.dart';
 import 'features/premium/premium_screen.dart';
 import 'firebase_options.dart';
 
-// NOTE: generate firebase_options.dart via FlutterFire CLI and replace below.
-// import 'firebase_options.dart';
-
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // optionally handle background messages

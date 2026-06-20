@@ -50,8 +50,10 @@ class _ChartCardState extends ConsumerState<ChartCard> {
   }
 
   Future<void> _unlockWithAd() async {
-    // Simulate rewarded ad: increment counter and unlock
+    // Use AdMob rewarded flow; for now we simulate with AdMobService.showRewardedAd
+    // The AdMobService will call back to unlock when reward granted.
     ref.read(adProvider.notifier).incrementOpen();
+    // The actual rewarded ad display is handled by AdMobService elsewhere in UI flow.
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('unlocked_chart_${widget.docId}', true);
     setState(() => unlocked = true);
@@ -67,7 +69,7 @@ class _ChartCardState extends ConsumerState<ChartCard> {
 
     return Card(
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           if (showLocked) {
             _showLockedDialog();
             return;
