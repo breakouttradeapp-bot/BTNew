@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "241502407227",
+    "firebase_url": "https://pdf-tools-2763d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "pdf-tools-2763d",
+    "storage_bucket": "pdf-tools-2763d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241502407227:android:ca1e4988a0c5a19fb9aa1e",
+        "android_client_info": {
+          "package_name": "com.breakout.nakshtra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZk_ABSOHWK9w_SX_zM09GLKntHMSwhSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241502407227:android:4856ee074522ebb9b9aa1e",
+        "android_client_info": {
+          "package_name": "com.breakouttrade.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZk_ABSOHWK9w_SX_zM09GLKntHMSwhSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241502407227:android:4574710bf03686e6b9aa1e",
+        "android_client_info": {
+          "package_name": "com.breakouttrade.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZk_ABSOHWK9w_SX_zM09GLKntHMSwhSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
